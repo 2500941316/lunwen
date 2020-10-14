@@ -159,7 +159,7 @@
                             <!-- 外部依赖jar包的最终位置 -->
                             <classpathPrefix>lib/</classpathPrefix>
                             <!-- 项目启动类 -->
-                            <mainClass>com.shu.com.shu.hbase.DemoApplication</mainClass>
+                            <mainClass>com.shu.hbase.DemoApplication</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
