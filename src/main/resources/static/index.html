@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link rel="stylesheet" type="text/css" href="js/webuploader.css">
+<link rel="stylesheet" type="text/css" href="js/layuiMy.css">
+<script src='js/jquery.min.js'></script>
+<script src='js/webuploader.min.js'></script>
+<body>
+
+
+<div id="upload-list" >
+    <div class="page">
+        <div class="file-panel">
+            <div id="test2">
+                <button type="button">点击上传</button>
+            </div>
+            <hr>
+
+            <div class="file-list" id="fileList"></div>
+        </div>
+    </div>
+</div>
+<button id="picker" style="display: none;">点击上传文件</button>
+
+<script>
+
+    $('#test2').click(function (event) {
+        $("#picker").find('input').click();
+    });
+    var uploader = WebUploader.create({
+        auto: true,// 选完文件后，是否自动上传。
+        swf: 'images/Uploader.swf',// swf文件路径
+        server: '/uploadToBacken',// 文件接收服务端。
+        pick: '#picker',// 内部根据当前运行是创建，可能是input元素，也可能是flash. 这里是div的id
+        multiple: true, // 选择多个
+        chunked: true,// 开起分片上传。
+        threads: 5, // 上传并发数。允许同时最大上传进程数。
+        method: 'POST', // 文件上传方式，POST或者GET。
+        fileSizeLimit: 1024 * 1024 * 100 * 100, //验证文件总大小是否超出限制, 超出则不允许加入队列。
+        fileSingleSizeLimit: 1024 * 1024 * 1024 * 3, //验证单个文件大小是否超出限制, 超出则不允许加入队列。
+        formData: {
+            backId: ""
+        }
+    });
+
+    uploader.on('fileQueued', function (file) {
+        var html = '<ul id="fileId-' + file.id + '" class="file-item"><li class="file-type"></li>   ' +
+            '                             <li class="file-name">' + file.name + '</li>' +
+            '                             <li class="file-size">' + file.size + '</li>  ' +
+            '                             <li id="status-' + file.id + '" class="file-status">上传中...</li>  ' +
+            '                             <li onclick="remove1(' + file + ')" class="file-operate">' +
+            '                        <div   class="layui-btn-group">' +
+            '                            <button type="button"   class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button>' +
+            '                        </div>' +
+            '                    </li>' +
+            '                    <li id="progress-' + file.id + '" class="progress"></li></ul>';
+        $('#fileList').append(html);
+    });
+
+    uploader.on("uploadStart", function () {
+        // 在这里可以准备好formData的数据
+        uploader.options.formData.backId = localStorage.getItem("backid");
+    });
+
+    uploader.on('uploadProgress', function (file, percent) {
+        if (percent === 1) {
+            $("#progress-" + file.id).css("width", percent * 100 + "%");
+            $("#status-" + file.id).html("正在存储");
+        } else {
+            $("#progress-" + file.id).css("width", percent * 100 + "%");
+            $("#status-" + file.id).html(
+                (percent * 100).toFixed(0) + "%"
+            );
+        }
+    });
+
+    uploader.on('uploadSuccess', function (file, response) {
+        if (response.code === 200) {
+
+        }
+    });
+
+    uploader.on('uploadError', function (file) {
+
+    });
+
+    $('#fileList').on('click', '.upload-item .btn-delete', function () {
+        // 从文件队列中删除某个文件id
+    });
+
+    uploader.on('uploadComplete', function (file) {
+    });
+
+
+</script>
+
+</body>
+</html>
