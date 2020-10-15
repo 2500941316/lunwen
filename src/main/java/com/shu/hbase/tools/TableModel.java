@@ -10,7 +10,7 @@ public class TableModel<T> {
     private int code;
     private String msg;
     private int count;
-    private List data;
+    private T data;
 
 
     public static TableModel success(List data, int total) {
@@ -33,6 +33,8 @@ public class TableModel<T> {
 
         return tableModel;
     }
+
+
 
     public static TableModel error(String message) {
         TableModel tableModel = new TableModel();
@@ -80,7 +82,7 @@ public class TableModel<T> {
         return data;
     }
 
-    public void setData(List data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

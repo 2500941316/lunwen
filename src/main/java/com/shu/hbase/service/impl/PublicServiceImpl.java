@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -65,6 +64,7 @@ public class PublicServiceImpl implements PublicService {
                     file2.mkdirs();
                 }
 
+
                 //保存每一个分片
                 file.transferTo(file2);
 
@@ -78,7 +78,7 @@ public class PublicServiceImpl implements PublicService {
                         if (files.length == chunks) {
                             break;
                         }
-                        Thread.sleep(300);
+                        Thread.sleep(100);
                         files = tempFiles.listFiles();
                     }
                     FileOutputStream fileOutputStream = null;

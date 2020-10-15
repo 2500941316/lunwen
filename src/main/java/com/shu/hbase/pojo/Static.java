@@ -38,5 +38,11 @@ public class Static {
     //fastdfs文件下载的地址
     public static final String FASTDFSADDR = "http://10.10.0.92/";
 
+    //redis存储分片地址的key前缀
+    public static final String REDISPATH = "path-";
+
+    //redis存储分片大小的key前缀
+    public static final String REDISSIZE = "size-";
+
 
 }

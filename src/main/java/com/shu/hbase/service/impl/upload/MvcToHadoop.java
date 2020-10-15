@@ -71,7 +71,7 @@ public class MvcToHadoop {
              */
             if (localPath.length() < 128 * 1024 * 1024) {
                 logger.info("文件大小小于128M,存入fastdfs");
-                hdfsPath = Static.FASTDFSADDR + mvcToFastDfs.uploadFile(in, localPath.getName());
+               // hdfsPath = Static.FASTDFSADDR + mvcToFastDfs.uploadFile(in, localPath.getName());
                 logger.info("文件上传到fastdfs成功");
             } else {
                 //查询hdfs的路径

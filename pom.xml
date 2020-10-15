@@ -26,6 +26,8 @@
         <fastjson>1.2.51</fastjson>
         <validation-api>2.0.1.Final</validation-api>
         <commons-io>2.6</commons-io>
+        <swagger>2.9.2</swagger>
+        <fastdfs>1.27-SNAPSHOT</fastdfs>
     </properties>
 
     <dependencies>
@@ -37,19 +39,41 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger}</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <version>${swagger}</version>
         </dependency>
 
+        <!--        <dependency>-->
+        <!--            <groupId>org.csource</groupId>-->
+        <!--            <artifactId>fastdfs-client-java</artifactId>-->
+        <!--            <version>${fastdfs}</version>-->
+        <!--        </dependency>-->
+
         <dependency>
-            <groupId>org.csource</groupId>
-            <artifactId>fastdfs-client-java</artifactId>
-            <version>1.27-SNAPSHOT</version>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>1.26.2</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
+        <!--一个好用的工具类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.0.12</version>
+        </dependency>
+
+
 
         <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-client -->
         <dependency>

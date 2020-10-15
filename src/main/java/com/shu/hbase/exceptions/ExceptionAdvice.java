@@ -38,6 +38,7 @@ public class ExceptionAdvice {
 
             default:
                 message = Exceptions.SERVER_OTHER_ERROR.getEmsg();
+                e.printStackTrace();
                 break;
 
         }
