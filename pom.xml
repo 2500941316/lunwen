@@ -27,7 +27,9 @@
         <validation-api>2.0.1.Final</validation-api>
         <commons-io>2.6</commons-io>
         <swagger>2.9.2</swagger>
-        <fastdfs>1.27-SNAPSHOT</fastdfs>
+        <fastdfs>1.26.2</fastdfs>
+        <jedis>2.9.0</jedis>
+        <hutool>4.0.12</hutool>
     </properties>
 
     <dependencies>
@@ -47,33 +49,25 @@
             <version>${swagger}</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.csource</groupId>-->
-        <!--            <artifactId>fastdfs-client-java</artifactId>-->
-        <!--            <version>${fastdfs}</version>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
-            <version>1.26.2</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
+            <version>${fastdfs}</version>
         </dependency>
 
         <!--一个好用的工具类-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.0.12</version>
+            <version>${hutool}</version>
         </dependency>
 
 
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis}</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-client -->
         <dependency>

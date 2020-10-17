@@ -16,6 +16,7 @@ public class RedisUtil {
 
     private RedisUtil() {
     }
+
     private static Logger _logger = LoggerFactory.getLogger(RedisUtil.class);
     ;
 
@@ -46,10 +47,9 @@ public class RedisUtil {
     //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
     private static boolean TEST_ON_BORROW = true;
 
-    private static JedisPool jedisPool ;
+    private static JedisPool jedisPool;
 
     //默认的数据库为0
-
 
 
     /**
@@ -60,14 +60,11 @@ public class RedisUtil {
     public final static int EXRP_MONTH = 60 * 60 * 24 * 30;   //一个月
 
 
-
-
-
     /**
      * 初始化Redis连接池,注意一定要在使用前初始化一次,一般在项目启动时初始化就行了
      */
-    public static JedisPool  initialPool() {
-        JedisPool jp=null;
+    public static JedisPool initialPool() {
+        JedisPool jp = null;
         try {
             JedisPoolConfig config = new JedisPoolConfig();
             config.setMaxTotal(MAX_ACTIVE);
@@ -79,28 +76,23 @@ public class RedisUtil {
             config.setTestOnReturn(true);
             config.setNumTestsPerEvictionRun(-1);
             jp = new JedisPool(config, ADDR_ARRAY, PORT, TIMEOUT, AUTH);
-            jedisPool=jp;
+            jedisPool = jp;
             threadLocalJedis.set(getJedis());
         } catch (Exception e) {
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
 
         }
 
-        return  jp;
+        return jp;
     }
-
 
 
     public static void close(Jedis jedis) {
-        if (threadLocalJedis.get() == null && jedis != null){
+        if (threadLocalJedis.get() == null && jedis != null) {
             jedis.close();
         }
     }
-
-
-
-
 
 
 //    /**
@@ -124,38 +116,37 @@ public class RedisUtil {
 //        if (jedisPool == null) {
 //            poolInit();
 //        }
-        int i=0;
+        int i = 0;
         while (!success) {
             i++;
             try {
                 if (jedisPool != null) {
-                    jedis=threadLocalJedis.get();
-                    if (jedis==null){
+                    jedis = threadLocalJedis.get();
+                    if (jedis == null) {
                         jedis = jedisPool.getResource();
-                    }else {
-                       if(! jedis.isConnected()&&!jedis.getClient().isBroken()){
-                           threadLocalJedis.set(null);
-                           jedis = jedisPool.getResource();
-                       }
+                    } else {
+                        if (!jedis.isConnected() && !jedis.getClient().isBroken()) {
+                            threadLocalJedis.set(null);
+                            jedis = jedisPool.getResource();
+                        }
                         //System.out.println(Thread.currentThread().getName()+":第"+i+"次获取成功#@利用了本地缓存redis");
                         return jedis;
                     }
-
-                }else {
+                } else {
                     throw new RuntimeException("redis连接池初始化失败");
                 }
             } catch (Exception e) {
 
-               System.out.println(Thread.currentThread().getName()+":第"+i+"次获取失败!!!");
+                System.out.println(Thread.currentThread().getName() + ":第" + i + "次获取失败!!!");
                 success = false;
                 e.printStackTrace();
-                _logger.error("redis服务器异常",e);
+                _logger.error("redis服务器异常", e);
             }
-            if (jedis!=null){
-                success=true;
+            if (jedis != null) {
+                success = true;
             }
 
-            if (i>=10&&i<20){
+            if (i >= 10 && i < 20) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -164,7 +155,7 @@ public class RedisUtil {
 
             }
 
-            if (i>=20&&i<30){
+            if (i >= 20 && i < 30) {
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -173,7 +164,7 @@ public class RedisUtil {
 
             }
 
-            if (i>=30&&i<40){
+            if (i >= 30 && i < 40) {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -182,18 +173,18 @@ public class RedisUtil {
 
             }
 
-            if (i>=40){
+            if (i >= 40) {
                 System.out.println("redis彻底连不上了~~~~(>_<)~~~~");
                 return null;
             }
 
         }
-        if (threadLocalJedis.get()==null){threadLocalJedis.set(jedis);}
+        if (threadLocalJedis.get() == null) {
+            threadLocalJedis.set(jedis);
+        }
         //System.out.println(Thread.currentThread().getName()+":第"+i+"次获取成功@");
         return jedis;
     }
-
-
 
 
     /**
@@ -211,7 +202,7 @@ public class RedisUtil {
             jo.set(key, value);
         } catch (Exception e) {
             threadLocalJedis.set(null);
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis服务器异常");
         } finally {
             if (jo != null) {
@@ -237,7 +228,7 @@ public class RedisUtil {
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis服务器异常");
         } finally {
             if (jo != null) {
@@ -268,7 +259,7 @@ public class RedisUtil {
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -288,7 +279,7 @@ public class RedisUtil {
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -306,7 +297,7 @@ public class RedisUtil {
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -317,7 +308,7 @@ public class RedisUtil {
     }
 
     //删除多个key
-    public static  long  delKeys(String[] keys){
+    public static long delKeys(String[] keys) {
         Jedis jo = null;
         try {
             jo = getJedis();
@@ -325,7 +316,7 @@ public class RedisUtil {
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -336,7 +327,7 @@ public class RedisUtil {
     }
 
     //删除单个key
-    public static  long  delKey(String key){
+    public static long delKey(String key) {
         Jedis jo = null;
         try {
             jo = getJedis();
@@ -344,7 +335,7 @@ public class RedisUtil {
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -355,15 +346,15 @@ public class RedisUtil {
     }
 
     //添加到队列尾
-    public static  long  rpush(String key, String node){
+    public static long rpush(String key, String node) {
         Jedis jo = null;
         try {
             jo = getJedis();
-            return jo.rpush(key,node);
+            return jo.rpush(key, node);
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -375,15 +366,15 @@ public class RedisUtil {
 
 
     //删除list元素
-    public static  long  delListNode(String key, int count, String value){
+    public static long delListNode(String key, int count, String value) {
         Jedis jo = null;
         try {
             jo = getJedis();
-            return jo.lrem(key,count,value);
+            return jo.lrem(key, count, value);
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
@@ -392,38 +383,36 @@ public class RedisUtil {
         }
 
     }
-
-
 
 
     //获取所有list
-    public static List getListAll(String key){
+    public static List getListAll(String key) {
         Jedis jo = null;
-        List list=null;
+        List list = null;
         try {
             jo = getJedis();
-            list=    jo.lrange(key,0,-1);
+            list = jo.lrange(key, 0, -1);
         } catch (Exception e) {
             threadLocalJedis.set(null);
             e.printStackTrace();
-            _logger.error("redis服务器异常",e);
+            _logger.error("redis服务器异常", e);
             throw new RuntimeException("redis操作错误");
         } finally {
             if (jo != null) {
                 close(jo);
             }
         }
-        return  list;
+        return list;
     }
 
     //清理缓存redis
-    public  static  void cleanLoacl(Jedis jo){
+    public static void cleanLoacl(Jedis jo) {
         threadLocalJedis.set(null);
         close(jo);
     }
 
-static {
-  initialPool();
-}
+    static {
+        initialPool();
+    }
 
 }

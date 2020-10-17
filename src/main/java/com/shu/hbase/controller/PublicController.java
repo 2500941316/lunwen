@@ -1,6 +1,7 @@
 package com.shu.hbase.controller;
 
 import com.shu.hbase.service.interfaces.PublicService;
+import com.shu.hbase.tools.RedisUtil;
 import com.shu.hbase.tools.TableModel;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class PublicController {
      * @param
      * @throws IOException
      */
-    @ApiOperation(value="web下载接口")
+    @ApiOperation(value = "web下载接口")
     @GetMapping("downLoad")
     public void downLoad(@RequestParam String fileId, String gId, HttpServletResponse response, HttpServletRequest request, Principal principal) {
         if (principal != null) {
@@ -47,7 +48,7 @@ public class PublicController {
      * @param chunks
      * @param request
      */
-    @ApiOperation(value="上传文件到后端服务器")
+    @ApiOperation(value = "上传文件到后端服务器")
     @PostMapping("uploadToBacken")
     public TableModel uploadTomvc(@RequestParam MultipartFile file, Integer chunk, Integer chunks, String backId, HttpServletRequest request, Authentication authentication) {
         if (file.isEmpty()) {
@@ -56,4 +57,15 @@ public class PublicController {
         return publicService.uploadTomvc(file, chunk, chunks, username, request, backId);
     }
 
+
+    /**
+     * 上传文件到mvc后端
+     **/
+    @ApiOperation(value = "上传文件到后端服务器")
+    @PostMapping("testRedis")
+    public void testRedis() {
+        System.out.println("开始测试redis");
+        String test = RedisUtil.getString("test");
+        System.out.println(test);
+    }
 }

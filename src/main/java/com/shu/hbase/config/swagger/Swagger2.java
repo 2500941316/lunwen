@@ -16,13 +16,16 @@ public class Swagger2 {
 
     @Bean
     public Docket createRestApi() {
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(this.apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.shu.hbase"))
                 .paths(PathSelectors.any())
                 .build();
+
     }
+
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
